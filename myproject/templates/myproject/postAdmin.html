@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	{% include 'myproject/headerfile.html' %}
+	<body>
+		<div class="container-fluid">
+			<div style="font-family:due;color:brown;padding-bottom:5px;padding-top:5px" class="jumbotron">
+				<h1 style="font-family:due;color:brown;padding:20px;padding-bottom:5px">Live News Blog </h1>
+				<p style="font-family:due;color:DodgerBlue;padding-left:20px">We give You the Latest News immediately it happen !!! </p>
+				<p style="font-family:due;color:brown;padding-left:20px">Welcome 
+					<span style="color:DodgerBlue">
+						{% block user_Name %}
+						{% endblock %}
+					</span>
+					, To the Administrative Page !! <a href="/myproject/">Latest News | Log Out</a></p>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+					{% block content %}
+					{% endblock %}
+				</div>
+				<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+					{% block navbar %}
+					{% endblock %}
+				</div>
+			</div>
+		<!-- close of container fluid -->
+		</div>
+	</body>
+	{% include 'myproject/footerfile.html' %}
+</html>

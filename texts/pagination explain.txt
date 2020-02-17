@@ -1,0 +1,41 @@
+total no of records = n
+
+
+record per page = limit
+
+total page = n /limit
+
+offset = start record 
+limit = move forward by n
+
+
+
+
+n = 30
+limit = 5
+
+total page = 30/5 = 6
+
+	5	5	5	5	5	5
+
+pages	1	2	3	4	5	6
+
+offset	{1-1*5}	{2-1*5}	{3-1*5}	{4-1*5}	{5-1*5}	{6-1*5}
+
+	0{1}	5{6}	10{11}	15{16}	20{21}	25{26}
+
+	array_row {database row}
+
+
+<ul class="pagination" align="center">
+
+	if previous exist <li><a href=pagination.php?page='.$previous_page.'>&laquo; </a> </li>
+
+loop tru no of total pages
+<li class="active"><span>'. $i.' <span class="sr-only">(current)</span></span></li>
+
+if next exist <li><a href=pagination.php?page='.$previous_page.'>&Raquo; </a> </li>
+
+
+
+

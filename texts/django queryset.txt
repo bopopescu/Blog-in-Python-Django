@@ -1,0 +1,217 @@
+Queryset - Django							sql raw querry
+
+
+Model Classs represent database table structure 
+
+class blog(models.Model):
+  
+	class Meta:
+		db_table = 'postRecord'
+	id = models.AutoField(primary_key=True)
+	author = models.EmailField()
+	postTitle  = models.TextField()
+	postBody = models.TextField()
+	postDate = models.DateTime()
+  
+	
+
+
+Runing queries with models
+	from blog.models import blog
+	insert
+	*** django insert
+	b = blog( author='sherif',postTitle ='news', postBody='all content', postDate = datetime('2005,1,30'))
+	b.save()
+	
+	** sql insert
+	sql ="insert into postRecord (author,postTitle, postBody) values('sherif','news','all content',datetime('2005,1,30'))
+	con.execute(sql)
+	
+	retrieve
+	b = blog.objects.all()		- select * from  postRecord
+	
+	##verify if query return values
+	b = blog.objects.all()
+	if(b.exists):
+		<ghghg>
+	else:
+		<okop>
+		
+		
+	b = blog.objects.filter(author='sherif').all()	- select * from  postRecord where author ='sherif'
+	
+	OR
+	b = blog.objects.get(author='sherif').all() - use this when you know item exist and must exist because if it does not exist django will raise a doesNotexist error and if fect more than one records it raises multipeErroexist Error
+	
+	b = blog.objects.all().filter(author='sherif')	- select * from  postRecord where author ='sherif'
+	or
+	b = blog.objects.filter(author='sherif')	- select * from  postRecord where author ='sherif'
+	
+	b = blog.objects.all().exclude(author='sherif')		- select * from  postRecord where author !='sherif'
+	b = blog.objects.all().filter(postDate=datetime('2005,1,30')	- select * from  postRecord where author ='sherif'
+	
+	b = blog.objects.all().filter(author='sherif',postDate=datetime('2005,1,30'))
+	SQL QUERY EQUIV
+	- select * from  postRecord where author ='sherif' and postDate = datetime('2005,1,30')
+	###key words in where clause
+	__lt <
+	__lte <=
+	__gt >
+	__gte >=
+	__exact =  i.e ant is not equal to Ant - case sensitive
+	__iexact = i.e Ant = ant - case insensitive
+	__contain = i.e ant is not equal to Ant		- case sensitive
+	__icontain = i.e Ant = ant - case insensitive 			sql is Like '%sherif%'
+	__startswith	sql is Like '%sherif'
+	__istartswith   sql is ILike '%sherif'
+	__endswith		sql is Like 'sherif%'
+	__iendswith		sql is ILike 'sherif%'
+	__date
+	__date__gt
+	__year
+	__year__gt
+	__month
+	__day
+	__week_day
+	__week_day_gte
+	__time
+	__hour
+	__minute
+	__second
+	__isnull
+	__avg average
+	__count
+	__max
+	__min
+	__StdDev __sum	__variance
+	
+	<fieldname><double underscore with no space i.e __ not _ _ ><literal name : lte or gte or exact>
+	i.e postDate__lte
+	b = blog.objects.all().filter(author='sherif',postDate__lte = datetime('2005,1,30'))
+	SQL QUERY EQUIV
+	- select * from  postRecord where author ='sherif' and postDate <= datetime('2005,1,30')
+	
+	b = blog.objects.all().filter(author__contain='sherif',postDate__lte = datetime('2005,1,30'))
+	SQL QUERY EQUIV
+	- select * from  postRecord where author  Like '%sherif%' and postDate <= datetime('2005,1,30')
+	
+	b = blog.objects.filter(postDate__month_lte = 6)
+	SQL QUERY EQUIV
+	- select * from  postRecord where extract ('month' from postDate) <= 6
+	
+	b = blog.objects.filter(postDate__year_lte = 6)
+	SQL QUERY EQUIV
+	- select * from  postRecord where extract ('year' from postDate) <= 6
+	
+	b = blog.objects.filter(postDate__day_gt = 6)
+	SQL QUERY EQUIV
+	- select * from  postRecord where extract ('day' from postDate) > 6
+	
+	b = blog.objects.filter(postDate__isnull = true)
+	SQL QUERY EQUIV
+	- select * from  postRecord where   postDate is null
+	
+	####ORDER BY
+	result_sports = postRecord.objects.filter(postType="Sports").order_by('id') 
+		- - select * from  postRecord where postType ='Sports' order_by id asc
+	result_sports = postRecord.objects.filter(postType="Sports").order_by('id','postType') 
+		- - select * from  postRecord where postType ='Sports' order_by id asc,postType asc
+	result_sports = postRecord.objects.filter(postType="Sports").order_by('-id','postType') - THE '-' at the front of id signify descending order
+		- - select * from  postRecord where postType ='Sports' order_by id desc,postType asc
+	
+	b = blog.objects.all().filter(author='sherif').filter(postDate=datetime('2005,1,30'))
+	SQL QUERY EQUIV
+	- select * from  postRecord where author ='sherif' or postDate > datetime('2005,1,30')
+	
+	##count record in db
+	q1 = blog.objects.count() - return integre rep the total row in table
+	q1= blog.objects.filter(author='sherif').count() - return integre rep the total row in table where author = sherif
+	
+	###Reusing query set
+	q1= blog.objects.filter(author='sherif')			
+	
+	q2 = q1.exclude(postDate=datetime.date.today())
+	
+	q1 = q2.filter(postDate=datetime.date.today())	
+	
+	SQL QUERY EQUIV
+	- select * from  postRecord where author ='sherif' and postDate != datetime.date.today() order by postDate ASC
+	
+	##limitting queryset limit and offset
+	b = blog.objects.all()[:5]
+	- select * from  postRecord limit 5
+	
+	b = blog.objects.all()[5:10]
+	- select * from  postRecord offset 5 limit 10
+	
+	explaining limit and offset
+	
+	total record = 30  - and giving limit 5  
+	ofsset = 30/5  = 6 
+	limits 5 10 15 20 25 30
+	offset 1- 1 2 3 4 5, offset 2- 6 7 8 9 10, offset 3- 11 12 13 14 15, 
+	offset 4- 16 17 18 19 20, offset 5- 21 22 23 24 25, offset 6- 26 27 28 29 20,
+	
+	##BETWEEN
+	b = blog.objects.filter(pubdate__range=(startdate,enddate))
+	sql = select * from where pubdate BETWEEN startdate and enddate;
+	
+	##IN
+	b = blog.objects.filter(name_in=[1,2,3])
+	sql = select * from where name in (i,2,3);
+	
+	a = blog.objects.filter(name_in='jss2')
+	b = blog.objects.filter(name_in=a)
+	
+	###update
+	
+	b = blog.objects.update(name='samo')
+	sql = update postTable set name = 'samo'
+	
+	b = blog.objects.filter(pub_id ='8787').update(name='samo')
+	sql = update postTable set name = 'samo' where pub_id = '8787'
+	
+	b = blog.objects.filter(pub_id ='8787').update(name='samo',password='adad')
+	sql = update postTable set name = 'samo', password='adad' where pub_id = '8787'
+	
+	save return no of record affected .. if it affect none it return 0
+	
+	or 
+	b = blog.objects.get(pub_id ='8787')
+	b.name = 'samo'
+	b.save()
+	
+	##delete
+	b = blog.objects.filter(pub_id ='8787').delete()
+	sql = delete from postTable where pub_id = '8787'
+	
+	b = blog.objects.all()
+	b.delete()
+	sql = delete from postTable
+	
+	##distinct
+	b = blog.objects.distinct('author')
+	b = blog.objects.distinct('author','title')
+	
+	##pick a specific record 
+	last
+	first
+	earliest
+	latest
+	b = blog.objects.latest('newsDate') = last insert
+	b = blog.objects.earliest('newsDate') = last insert
+	b = blog.objects.order_by('newsDate').first() = first record
+	b = blog.objects.order_by('newsDate').last() = last record
+	
+	##agregate
+	b = blog.objects.aggregate(count('entry'))
+	result ={'entry_count':16}
+	
+	b = blog.objects.aggregate(number_of_entry = count('entry'))
+	result ={'number_of_entry':16}
+	
+	
+	
+	
+	
+	

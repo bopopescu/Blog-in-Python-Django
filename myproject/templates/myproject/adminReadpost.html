@@ -1,0 +1,50 @@
+{% extends 'myproject/postAdmin.html' %}
+{% block user_Name %}
+{{ fullname }}
+{% endblock %}
+{% block content %}
+{% load staticfiles %}
+{% autoescape off %}
+	{% for sam in sherif %}
+		<div class="col-xs-12">
+			<div class="col-xs-12">
+				<h4 style="color:brown" ><strong><span style="font-family:due;">{{ sam.postType|upper }} :</span> {{ sam.postTitle }}</strong></h4>
+				<h5 style="color:blue"><strong><span style="color:green">Posted By : </span>{{ sam.author }} <span style="color:green">- Date Posted : </span>{{ sam.postDate| date:"l d F, Y  - G:i A" }}</strong></h5>
+				<hr/>
+				<img  style="height:300px;width:500px" class="img-responsive img-thumbnail" src="{% static 'newsFile/' %}{{sam.postId}}/file.jpg" />
+			</div>
+			
+			<div class="col-xs-12">
+				<hr/>
+					<p>
+						<strong style="color:brown">
+							<a style="color:white;padding:2px" class="btn btn-info" href="/myproject/new/blog/view/redit/{{ sam.postId }}/"><span class="glyphicon glyphicon-pencil"></span> Edit News <span class="glyphicon glyphicon-pencil"></span></a>
+						</strong> |
+						<strong style="color:brown">
+							<a style="color:white;padding:2px" class="btn btn-danger" href="/myproject/new/blog/view/redel/{{ sam.postId }}/"><span class="glyphicon glyphicon-trash"></span> Delete News <span class="glyphicon glyphicon-trash"></span></a>
+						</strong>
+					</p>
+				<hr/>
+			</div>
+			<div class="col-xs-12">
+					<p>{{ sam.postBody|safe}}</p>
+			</div>
+			<div class="col-xs-12">
+				<hr/>
+					<p>
+						<strong style="color:brown">
+							<a style="color:white;padding:2px" class="btn btn-info" href="/myproject/new/blog/view/redit/{{ sam.postId }}/"><span class="glyphicon glyphicon-pencil"></span> Edit News <span class="glyphicon glyphicon-pencil"></span></a>
+						</strong> |
+						<strong style="color:brown">
+							<a style="color:white;padding:2px" class="btn btn-danger" href="/myproject/new/blog/view/redel/{{ sam.postId }}/"><span class="glyphicon glyphicon-trash"></span> Delete News <span class="glyphicon glyphicon-trash"></span></a>
+						</strong>
+					</p>
+				<hr/>
+			</div>
+		</div>
+	{% endfor %}
+{% endautoescape %}
+{% endblock %}
+{% block navbar %}
+	{% include "myproject/left_admin_nav.html" %}
+{% endblock %}

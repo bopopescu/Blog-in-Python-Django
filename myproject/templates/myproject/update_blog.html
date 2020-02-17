@@ -1,0 +1,20 @@
+{% extends 'myproject/postAdmin.html' %}
+{% load bootstrap %}
+{% block user_Name %}
+	{{ fullname }}
+{% endblock %}
+{% block content %}
+	<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+	</div>
+	<div class="col-xs-12 col-sm-12 col-md-7 col-lg-7" >
+				<h2 style="color:brown;font-family:due;text-align:center"><strong>Update News !!!</strong></h2>
+		<h4 style="color:brown;">{{ errorMesg }}</h4>
+		<form name = "form"   method="POST" enctype="multipart/form-data" class="form-horizontal" >{% csrf_token %}
+				{{ form|bootstrap }}
+				<button type="submit" class="btn btn-primary btn-lg">Save Post</button>
+		</form>
+	</div>
+{% endblock %}
+{% block navbar %}
+	{% include "myproject/left_admin_nav.html" %}
+{% endblock %}

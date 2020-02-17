@@ -1,0 +1,59 @@
+{% extends 'myproject/mywork.html' %}
+{% load staticfiles %}
+{% block content %}
+	{% if total_pages_all > 1 %}
+		<div class="col-xs-12">
+			<ul class="pagination" align="center">
+			{% if has_previous_page == 1 %}
+				<li><a href="/myproject/viewAll/{{search_category}}/{{previous_page}}/">&laquo; </a></li>
+			{% endif %}
+			{% for i in total_pages %}
+				{% if i == current_page %}
+					<li class="active"><span>{{ i }}<span class="sr-only">(current)</span></span></li>
+				{% endif %}
+				{% if i != current_page %}
+					<li><a href="/myproject/viewAll/{{search_category}}/{{i}}/">{{ i }} </a></li>
+				{% endif %}
+			{% endfor %}
+			{% if has_next_page == 1 %}
+				<li><a href="/myproject/viewAll/{{search_category}}/{{next_page}}/">&raquo; </a></li>
+			{% endif %}
+			</ul>			
+		</div>
+	{% endif %}
+	
+	{% for sam in sherif %}
+		<div class="col-xs-3">
+					<img  style="height:180px" class="img-responsive img-thumbnail" src="{% static 'newsFile/' %}{{sam.postId}}/file.jpg" />
+			</div>
+			<div class="col-xs-9">
+				<h4 style="color:brown" ><strong>{{ sam.postType|upper }} : {{ sam.postTitle }}</strong></h4>
+				<h5 style="color:blue"><strong><span style="color:green">Posted By : </span>{{ sam.author }} <span style="color:green">- Date Posted : </span>{{ sam.postDate| date:"l d F, Y  - G:i A" }}</strong></h5>
+				<p>{{ sam.postBody|truncatewords:100|escape }} <strong style="color:brown"><a style="color:white;padding:2px" class="btn btn-primary" href="/myproject/readNews/{{ sam.postId }}/">Read News &raquo; </a></strong></p>
+				<hr/>
+			</div>
+	{% endfor %}
+	{% if total_pages_all > 1 %}
+		<div class="col-xs-12">
+			<ul class="pagination" align="center">
+			{% if has_previous_page == 1 %}
+				<li><a href="/myproject/viewAll/{{search_category}}/{{previous_page}}/">&laquo; </a></li>
+			{% endif %}
+			{% for i in total_pages %}
+				{% if i == current_page %}
+					<li class="active"><span>{{ i }}<span class="sr-only">(current)</span></span></li>
+				{% endif %}
+				{% if i != current_page %}
+					<li><a href="/myproject/viewAll/{{search_category}}/{{i}}/">{{ i }} </a></li>
+				{% endif %}
+			{% endfor %}
+			{% if has_next_page == 1 %}
+				<li><a href="/myproject/viewAll/{{search_category}}/{{next_page}}/">&raquo; </a></li>
+			{% endif %}
+			</ul>			
+		</div>
+	{% endif %}
+{% endblock %}
+{% block navbar %}
+	{% include "myproject/left_nav.html" with politics_r=politics_s sports_r=sports_s others_r=others_s %}
+{% endblock %}

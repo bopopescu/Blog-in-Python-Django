@@ -1,0 +1,18 @@
+{% extends 'myproject/mywork.html' %}
+{% load bootstrap %}
+{% block content %}
+	<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" >
+	</div>
+	<div style="padding:15px;" class="col-xs-12 col-sm-12 col-md-7 col-lg-7" >
+		<br/><br/><br/><br/>
+		<form style="background-color:Beige;padding:30px;" name = "form"   method="POST" enctype="multipart/form-data" class="form-horizontal" >
+		{% csrf_token %}
+				{{ form|bootstrap }}
+				<button type="submit" class="btn btn-primary btn-lg">Click to Login</button>
+				<h4 style="color:brown;"><strong>{{ errorMesg }}</strong></h4>
+		</form>
+	</div>
+{% endblock %}
+{% block navbar %}
+	{% include "myproject/left_nav.html" with politics_r=politics_s sports_r=sports_s others_r=others_s %}
+{% endblock %}

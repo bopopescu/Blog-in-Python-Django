@@ -1,0 +1,40 @@
+{% load staticfiles %}
+<div class="hidden-xs col-sm-12 col-md-12 col-lg-12" style="background-color:white;margin-bottom:10px;margin-top:10px;padding:5px 5px 5px 5px">
+	<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="3000" data-ride="carousel" style="background-color:white;padding:5px 0px 5px 0px;text-align:justify">
+		<!-- Carousel indicators -->
+		<ol class="carousel-indicators">
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="1"></li>
+			<li data-target="#myCarousel" data-slide-to="2"></li>
+			<li data-target="#myCarousel" data-slide-to="3"></li>
+			<li data-target="#myCarousel" data-slide-to="4"></li>
+		</ol>   
+		<!-- Carousel items -->
+		<div class="carousel-inner" style="background-color:white;">
+			{% for sam in sherif_top %}
+					<div class="{% if forloop.first  %}item active{% else%}item{% endif %}">
+						<a style="color:black;text-decoration:none;font-weight:bold;" href="/myproject/readNews/{{ sam.postId }}/">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-bottom:5px;padding-bottom:5px">
+								<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" >
+									<img  style="height:200px" class="img-responsive img-thumbnail" src="{% static 'newsFile/' %}{{sam.postId}}/file.jpg" />
+								</div>
+								<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7" >
+									<h4 style="color:brown" ><strong>{{ sam.postType|upper }} : {{ sam.postTitle }}</strong></h4>
+									<h5 style="color:blue"><strong><span style="color:green">Posted By :</span>{{ sam.author }}</strong></h5>
+									<h5 style="color:blue"><strong><span style="color:green">Date Posted : </span>{{ sam.postDate| date:"l d F, Y  - G:i A" }}</strong></h5>
+									<p>{{ sam.postBody|truncatewords:80|safe }}</p>
+								</div>
+							</div>
+						</a>
+					</div>
+				
+			{% endfor %}
+		</div>
+		<a class="carousel-control left" href="#myCarousel" data-slide="prev" >
+			<span class="glyphicon glyphicon-chevron-left"></span>
+		</a>
+		<a class="carousel-control right" href="#myCarousel" data-slide="next" >
+			<span class="glyphicon glyphicon-chevron-right"></span>
+		</a>
+	</div>
+</div>

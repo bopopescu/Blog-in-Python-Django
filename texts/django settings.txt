@@ -1,0 +1,398 @@
+*****************************
+USING PYTHON FOR WEB DESIGN
+
+*****************************
+
+1. INSTALL PIP 	-	NOTE: YOU MUST HAVE INTERNET ACCESS
+
+python -m pip install -U pip 
+
+
+*******************
+
+C:\Users\nigel>python -m pip install -U pip 
+Collecting pip
+Downloading pip-8.1.2-py2.py3-none-any.whl (1.2MB)
+    100% |################################| 1.2MB 198kB/s 
+Installing collected packages: pip 
+Found existing installation: pip 7.1.2
+Uninstalling pip-7.1.2:
+    Successfully uninstalled pip-7.1.2 
+Successfully installed pip-8.1.2 
+
+
+*****************
+
+2. INSTALL VIRTUAL ENVIRONMENT	-	NOTE: YOU MUST HAVE INTERNET ACCESS - VIRTUAL ENV WILL BE USE TO CREATE A PYTHON FILE SEPERATE FROM YOUR ORIGINAL PYTHON PROGRAAM ..SO THAT YOU WILL NOT DESTROY YOUR PYTHON INSTALLATION
+
+
+pip install virtualenv 
+
+*******************
+
+C:\Users\nigel>pip install virtualenv 
+Collecting virtualenv 
+Downloading virtualenv-15.1.0-py2.py3-none-any.whl (1.8MB)
+    100% |################################| 1.8MB 323kB/s 
+Installing collected packages: virtualenv 
+Successfully installed virtualenv-15.1.0  
+
+
+*****************
+
+3. INSTALL DJANGO PROJECT	- DJANGO IS AN APP FOR pyhton FRAME WORK
+
+	pip install django==1.11.2 
+	
+**************************************
+This will instruct pip to install Django into your pyhton environment. 
+Your command output should look like this:
+
+Collecting django==1.11.2
+Using cached Django-1.11.2-py2.py3-none-any.whl
+Collecting pytz (from django==1.11)
+Using cached pytz-2017.2-py2.py3-none-any.whl
+Installing collected packages: pytz, django
+Successfully installed django-1.11.2 pytz-2017.2
+
+***********************************
+
+#############################
+
+CREATING A PROJECT WITH PYTHON
+
+############################
+
+open command prompt - cmd
+
+	1. change directory to where you want to have your new app 
+
+		I.e cd c:\wamp\www
+
+	2. execute this command to create a virtual environment to host your project
+		Note: virtual env will install a fresh python app different from the original python app
+			the purpose is to make sure you dont destroy your original python app files.
+
+		virtualenv {your site name} 	
+		
+	Note: {your site name} -  type the name you want to use for your environment 
+	
+	i.e virtualenv pythonproject
+
+
+	************************
+	Using base prefix 'c:\\users\\nigel\\appdata\\local\\programs\\python\\python36-32'
+	New python executable in C:\Users\nigel\OneDrive\Documents\mysite_project\env_mysite\Scripts\python.exe
+	Installing setuptools, pip, wheel...done.
+
+	this will install a copy of python for you
+	*******************************
+
+	3. change directory to your new virual environment
+
+		cd {your site name or the path to your virtual environment}
+
+		i.e cd c:\wamp\www\pythonproject
+
+	
+	4. activate the django environment by running the script activate
+
+		i.e cd c:\wamp\www\pythonproject >> cd scripts
+		
+			c:\wamp\www\pythonproject\scripts >>	activate
+			
+			(pythonproject) c:\wamp\www\pythonproject\Scripts
+
+	************ Next is to create a django frame work in the virtual environment *********
+	5. change directory back to virtual environment
+
+		i.e cd  c:\wamp\www\pythonproject
+		
+		(pythonproject) c:\wamp\www\pythonproject >>
+
+	6. install django framework because your virtual environment has not copied its module
+		
+		to install it online type
+		i.e (pythonproject) c:\wamp\www\pythonproject >> pip install django==1.11.2
+
+		to install offline which means you have downloaded django already and you want to install it
+
+		copy the downloaded django to your virtual environment {c:\wamp\www\pythonproject}
+		change to the folder of downloaded django
+		i.e (pythonproject) c:\wamp\www\pythonproject >> cd django-master
+			
+		(pythonproject) c:\wamp\www\pythonproject\django-master >>
+	
+	7. now use django to install django frame work to the virtual environmen
+		
+		django-admin startproject {ur website name}
+		
+		Note: {ur website name} is the name you want to give your site
+		
+		i.e (pythonproject) c:\wamp\www\pythonproject >> django-admin startproject blognews
+
+	8. open the folder blognews at c:\wamp\www\pythonproject\blognews
+		
+		{inside blognews will contain}
+		
+			blognews
+			   -_init_py
+			   - setting.py		-	database settings and other setting
+			   - urls.py		- 	project main url
+			   -wsgi.py		-	setting for running wsgi app
+		   	manage.py
+	
+		Note: django contain projects and apps
+
+			you can have so many apps in one project
+
+			apps are the real site you want to create
+			project is just to give you django settings
+
+	9. Configure django settings.py to the database you want to use
+		
+		open settings.py and configure with database you want to use
+			i.e DATABASES = {
+    
+				'default': {
+        
+					'ENGINE': 'mysql.connector.django', 
+        
+					'NAME': 'addressbook',
+        
+					'USER': 'root',
+        
+					'PASSWORD': '',
+        
+					'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+
+      					'PORT': '3306',
+    
+					}
+
+				}
+		
+		##save the settings and run this app to migrate django default tables to your database
+		
+		
+		 
+
+	10. lets run our django project window
+		
+		change directory to the django project
+	
+		i.e (pythonproject) c:\wamp\www\pythonproject >> cd blognews
+		
+		then type :
+		
+		Configure django settings.py to the database you want to use
+		
+		open settings.py and configure with database you want to use
+			i.e DATABASES = {
+    
+				'default': {
+        
+					'ENGINE': 'mysql.connector.django', 
+        
+					'NAME': 'addressbook',
+        
+					'USER': 'root',
+        
+					'PASSWORD': '',
+        
+					'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+
+      					'PORT': '3306',
+    
+					}
+
+				}
+		
+		##save the settings and run this app to migrate django default tables to your database
+
+		i.e (pythonproject) c:\wamp\www\pythonproject\blognews >> python manage.py migrate
+		
+		result:
+			Operations to perform:
+			Apply all migrations: admin, auth, contenttypes, sessions
+			Running migrations:
+			Applying contenttypes.0001_initial... OK
+			Applying auth.0001_initial... OK
+			Applying admin.0001_initial... OK
+			### several more migrations (not shown)
+		
+		lets start our server
+
+		i.e (pythonproject) c:\wamp\www\pythonproject\blognews >> python manage.py runserver
+
+		Result:
+			Performing system checks...
+			System check identified no issues (0 silenced).
+			May 16, 2017 - 16:48:29
+			Django version 1.11, using settings 'mysite.settings'
+			Starting development server at http://127.0.0.1:8000/
+			Quit the server with CTRL-BREAK.
+	
+	to verify if django is well configured go to web browser and type
+		
+		http://127.0.0.1:8000
+	result:
+		it should load a succesfull page for you
+		
+
+	11. lets create an app in our django project
+		
+		quit our server - cntrl+c
+
+		(pythonproject) c:\wamp\www\pythonproject\blognews >> python manage.py startapp {your real website name}
+		i.e (pythonproject) c:\wamp\www\pythonproject\blognews >> python manage.py startapp liveblog
+		
+		
+
+--------------------------------------------------------------------------
+|---|
+|
+|	or to do all app without virtual environment 
+|_____________________________________________________________________________
+
+
+after installing python , pip, django-master,	mysql connector
+
+	1. go to cmd - command window 
+		
+		change directory to wamp\www folder or any location you want to have your project
+	
+	
+		c:\sherif416>> cd c:\wamp\www
+	
+		c:\wamp\www >>
+	
+	2. create a django prject
+		
+		c:\wamp\www >> django-admin startproject {your choice of project-name}
+
+		i.e c:\wamp\www >> django-admin startproject mywebpython
+
+	open the folder mywebpython at c:\wamp\www\pythonproject\mywebpython
+		
+		{inside mywebpython will contain}
+		
+			mywebpython 
+			   -_init_py
+			   - setting.py		-	database settings and other setting
+			   - urls.py		- 	project main url
+			   -wsgi.py		-	setting for running wsgi app
+		   	manage.py
+
+	3. change directory to your django project
+		
+		i.e c:\wamp\www >> cd  mywebpython
+		
+		c:\wamp\www\mywebpython >>	
+	
+	4. create an app for your django
+		
+		Note: django contain projects and apps
+
+			you can have so many apps in one project
+
+			apps are the real website you want to create i.e www.blognews.com  - app name should be blognews
+			project is just to give you django settings
+		
+		
+		c:\wamp\www\mywebpython >> python manage.py startapp {your app name}
+		
+		i.e  c:\wamp\www\mywebpython >> python manage.py startapp blognews
+		
+		django app called blognews is now created
+
+	5. Edit settings.py under your django project {c:\wamp\www\mywebpython\mywebpython\setting.py}
+		
+		i.e DATABASES = {
+    
+				'default': {
+        
+					'ENGINE': 'mysql.connector.django', 
+        
+					'NAME': 'addressbook',
+        
+					'USER': 'root',
+        
+					'PASSWORD': '',
+        
+					'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+
+      					'PORT': '3306',
+    
+					}
+
+				}
+		
+		##save the settings - this will enable django to upload all its default tables to your database
+
+	6. register your app to the installed app settings in settings.py
+		INSTALLED_APPS = [
+    
+			'django.contrib.admin',
+    
+			'django.contrib.auth',
+    
+			'django.contrib.contenttypes',
+    
+			'django.contrib.sessions',
+    
+			'django.contrib.messages',
+    
+			'django.contrib.staticfiles',
+    
+			'blognews',
+			
+]
+
+		Note : this last line is the name of your u created in step 4 you just added it to it so that your project will recognise the app -- so if you create more apps in same project you should register them as well
+
+	7. lets migrate django default tables to the database you specified in the database settings
+		
+		c:\wamp\www\mywebpython >> python manage.py migrate
+
+	8. create a user account for the django project by running this command
+		
+		c:\wamp\www\mywebpython >> python manage.py createsuperuser
+	
+		result
+			username:
+			password:
+			email:
+			retype password:
+
+		note: as you type the password is not displayed but computer saved it ..so when you are tru typing just press enter
+
+	9. Run our server now by the command
+		
+		c:\wamp\www\mywebpython >> python manage.py runserver
+
+		result:
+			Performing system checks...
+			System check identified no issues (0 silenced).
+			May 16, 2017 - 16:48:29
+			Django version 1.11, using settings 'mysite.settings'
+			Starting development server at http://127.0.0.1:8000/
+			Quit the server with CTRL-BREAK.
+
+			
+		to verify if django is well configured go to web browser and type
+		
+		http://127.0.0.1:8000
+	result:
+		it should load a succesfull page for you
+
+	to login in to our project administartive page
+		type in browser
+		http://127.0.0.1:8000/admin
+
+	then enter the detail you created at step 8
+
+	thats all.......
+	learn django to do other settings
+		
+	

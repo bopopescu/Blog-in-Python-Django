@@ -1,0 +1,45 @@
+###using bind form
+
+model.py
+class postRecord(models.Model):
+  class Meta:
+       db_table = 'postRecord'
+  id = models.AutoField(primary_key=True)
+  author = models.CharField(max_length = 250)
+  postTitle  = models.CharField(max_length = 250)
+  postBody = models.TextField()
+  postType = models.CharField(max_length = 50)
+  postDate = models.DateTimeField()
+  
+form.py
+from django import forms
+from .models import postRecord
+class savePost(forms.ModelForm):
+	
+	class Meta:
+		model = postRecord
+		fields = ('author','postTitle','postType','postBody')
+		
+		
+view.py
+from django.shortcuts import render
+from myproject.models import tb_address_book, postRecord
+from myproject.forms import savePost
+from django.http import HttpResponseRedirect
+from django.utils import timezone
+import datetime
+def new_post(request):
+	if request.method =='POST':
+		form = savePost(request.POST)
+		if form.is_valid():
+			post = form.save(commit=False)
+			#post.author = request.user
+			post.postDate = timezone.now()
+			post.save()
+			return HttpResponseRedirect('/myproject/new/blog')
+	else:
+		form = savePost()
+	result_politics = postRecord.objects.filter(postType="Politics").order_by('id').all()
+	result_sports = postRecord.objects.filter(postType="Sports").order_by('id').all()
+	result_others = postRecord.objects.filter(postType="Others").order_by('id').all()
+	return render(request, "myproject/new_blog.html", {'form': form, 'politics_s' : result_politics, 'sports_s' : result_sports,'others_s' : result_others })

@@ -1,0 +1,72 @@
+######url tutors
+
+****
+project url.py
+
+urlpatterns = [
+    
+	url(r'^admin/$', admin.site.urls),
+	url(r'^myproject/$', include('myproject.urls')),
+
+]
+
+explain 
+
+r - where the must start all url
+
+'^admin/$'
+^ - the begining of the url
+admin/
+$	-	it terminates it implies nothing should come after that
+
+example
+	http://127.0.0.1:8000/admin/	-	correct
+	http://127.0.0.1:8000/admin/me	-	is wrong because the url terminate at admin/$
+
+same explanation goes to ^myproject/$
+
+example
+	http://127.0.0.1:8000/myproject/	-	correct
+	http://127.0.0.1:8000/myproject/me	-	is wrong because the url terminate at admin/$
+
+further the second url is including another url which implies that the url should goes to another file to search for its proper interpretaion
+
+include('myproject.urls')	-	myproject is my app name and urls is the urls.py in app
+
+so every url that hit the browser with just http://127.0.0.1:8000/myproject/ will go to my app urls.py to look for the view to rendere
+
+while the ones only with this http://127.0.0.1:8000/admin/ will go to django admin page
+
+****************
+app url.py
+*****************
+
+app name myproject
+	urlpatterns = [
+	url(r'^viewAll/(?P<category>\w+)/$', views.view_All, name='view_All'),
+	url(r'^readNews/(\d+)/$', views.read_post, name='read_post'),
+	url(r'^new/(\w+)/$', views.new_post, name='new_post'),
+	url(r'^$', views.post_list, name='post_list'),
+]
+
+this where the project url is directing you to
+
+r'^viewAll/(?P<category>\w+)/$'
+
+myproject/viewAll/{anyother string values}
+
+it takes the string value as a string parameter to its class in view
+
+url(r'^viewAll/(?P<category>\w+)/$', views.view_All, name='view_All'),
+
+views.view_All
+
+a class in views.py is know as viewAll that accept the string parameters
+
+valid  http://127.0.0.1:8000/viewAll/sam/
+
+	incorrect: http://127.0.0.1:8000/viewAll/
+		or http://127.0.0.1:8000/viewAll/sam/jude
+
+anything after viewAll/ is taken as a url parameter
+

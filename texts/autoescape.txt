@@ -1,0 +1,82 @@
+##to asign value to variable in template
+{% with pbody as 'Sherif' %}
+{% endwith %}
+
+note: the variable become unaccesible by any element after the endwith
+
+autoescape is like html_special_chars_decode in php 
+
+## use autoescape and on it apply to every variable under its scope
+{% extends 'myproject/mywork.html' %}
+{% block content %}
+{% autoescape on %}
+	{% for sam in sherif %}
+		<div class="col-xs-12">
+			<h4 style="color:brown" >{{ sam.postType|upper }} : {{ sam.postTitle }}</h4>
+			<h5 style="color:blue"><strong><span style="color:green">Posted By : </span>{{ sam.author }} <span style="color:green">- Date Posted : </span>{{ sam.postDate| date:"l d F, Y  - G:i A" }}</strong></h5>
+			<hr/>
+			<p>{{ sam.postBody}}</p>
+			<hr/>
+		</div>
+	{% endfor %}
+{% endautoescape %}
+{% endblock %}
+{% block navbar %}
+	{% include "myproject/left_nav.html" with politics_r=politics_s sports_r=sports_s others_r=others_s %}
+{% endblock %}
+
+##dont use autoescape tag but use autoescape in any desire variable
+
+{% extends 'myproject/mywork.html' %}
+{% block content %}
+	{% for sam in sherif %}
+		<div class="col-xs-12">
+			<h4 style="color:brown" >{{ sam.postType|upper }} : {{ sam.postTitle }}</h4>
+			<h5 style="color:blue"><strong><span style="color:green">Posted By : </span>{{ sam.author }} <span style="color:green">- Date Posted : </span>{{ sam.postDate| date:"l d F, Y  - G:i A" }}</strong></h5>
+			<hr/>
+			<p>{{ sam.postBody|escape}}</p>
+			<hr/>
+		</div>
+	{% endfor %}
+{% endblock %}
+{% block navbar %}
+	{% include "myproject/left_nav.html" with politics_r=politics_s sports_r=sports_s others_r=others_s %}
+{% endblock %}
+
+##dont use autoescape but use safe in any desire variable
+
+{% extends 'myproject/mywork.html' %}
+{% block content %}
+	{% for sam in sherif %}
+		<div class="col-xs-12">
+			<h4 style="color:brown" >{{ sam.postType|upper }} : {{ sam.postTitle }}</h4>
+			<h5 style="color:blue"><strong><span style="color:green">Posted By : </span>{{ sam.author }} <span style="color:green">- Date Posted : </span>{{ sam.postDate| date:"l d F, Y  - G:i A" }}</strong></h5>
+			<hr/>
+			<p>{{ sam.postBody|safe}}</p>
+			<hr/>
+		</div>
+	{% endfor %}
+{% endblock %}
+{% block navbar %}
+	{% include "myproject/left_nav.html" with politics_r=politics_s sports_r=sports_s others_r=others_s %}
+{% endblock %}
+
+##off auto escape but make two or more variable to escape
+
+{% extends 'myproject/mywork.html' %}
+{% block content %}
+{% autoescape off %}
+	{% for sam in sherif %}
+		<div class="col-xs-12">
+			<h4 style="color:brown" >{{ sam.postType|upper }} : {{ sam.postTitle }}</h4>
+			<h5 style="color:blue"><strong><span style="color:green">Posted By : </span>{{ sam.author }} <span style="color:green">- Date Posted : </span>{{ sam.postDate| date:"l d F, Y  - G:i A" }}</strong></h5>
+			<hr/>
+			<p>{{ sam.postBody|escape}}</p>
+			<hr/>
+		</div>
+	{% endfor %}
+{% endautoescape %}
+{% endblock %}
+{% block navbar %}
+	{% include "myproject/left_nav.html" with politics_r=politics_s sports_r=sports_s others_r=others_s %}
+{% endblock %}

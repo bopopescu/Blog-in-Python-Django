@@ -1,0 +1,58 @@
+model.py
+class postRecord(models.Model):
+  class Meta:
+       db_table = 'postRecord'
+  id = models.AutoField(primary_key=True)
+  author = models.CharField(max_length = 250)
+  postTitle  = models.CharField(max_length = 250)
+  postBody = models.TextField()
+  postType = models.CharField(max_length = 50)
+  postDate = models.DateTimeField()
+  
+form.py
+from django import forms
+from .models import postRecord
+
+CHOICES =(('Politics','Politics'),('Sports','Sports'),('Others','Others'))
+
+class savePost(forms.Form):
+	author = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter the Authors Name'}),label='Post Author :', max_length=250)
+	postTitle = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter the Post Title'}),label='Post Title :', max_length=250)
+	postBody = forms.CharField(label='Post Contents :', widget=forms.Textarea(attrs={'placeholder':'Enter the Post Contents'}))
+	postType = forms.ChoiceField(label='Post Type :', widget=forms.Select, choices = CHOICES)
+	#author = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter the Authors Name',value="Sherif"}),label='Post Author :', max_length=250)
+	#postType = forms.ChoiceField(label='Post Type :', widget=forms.RadioSelect, choices = CHOICES)
+	#postType = forms.ChoiceField(label='Post Type :', widget=forms.TextInput(attrs={'class':'special','size':'40','required':'false'}))
+	#cc_myself = forms.BooleanField(required=False)  postTitle postBody postType
+	#TextInput	-	text,	NumberInput	-	number,	EmailInput	-	email,	URLInput	-	url,	PasswordInput	-	password,	HiddenInput	-	hidden,	DateInput	-	text,	DateTimeInput	-	text,	TimeInput	-	text,	Textarea	-	textarea,	CheckboxInput	-	checkbox,	Select - <select> with <option> values as <choices> in django,	SelectMultiple	-	allow multiple option select,	RadioSelect - group of radio buttons like RadioGroup in android - it has optional value like choices in select,	CheckboxSelectMultiple	 - multiple selction from more than check boxes, FileInput	-	file, ClearableFileInput	-	file with an addition checkbox to help u select file choose,
+	
+view.py
+from django.shortcuts import render
+from myproject.models import tb_address_book, postRecord
+from myproject.forms import savePost
+from django.http import HttpResponseRedirect
+from django.utils import timezone
+import datetime
+def new_post(request):
+	if request.method =='POST':
+		form = savePost(request.POST)
+		if form.is_valid():
+			author = form.cleaned_data['author']
+			#clean_data will put default value in the field if no value is provided from the form u can still accept the values like bellow
+			#postTitle = form['postTitle']
+			postTitle = form.cleaned_data['postTitle']
+			postBody = form.cleaned_data['postBody']
+			postType = form.cleaned_data['postType']
+			#postDate = datetime.datetime.now()#.set('Africa/Lagos').now()
+			postDate = timezone.now()
+			post = postRecord(author=author,postTitle=postTitle,postBody=postBody,postType=postType,postDate=postDate)
+			#post.author = request.user
+			#post.postDate = timezone.set('Africa/Lagos').now()
+			post.save()
+			return HttpResponseRedirect('/myproject/new/blog')
+	else:
+		form = savePost()
+	result_politics = postRecord.objects.filter(postType="Politics").order_by('-id')[:1]
+	result_sports = postRecord.objects.filter(postType="Sports").order_by('-id')[:1]
+	result_others = postRecord.objects.filter(postType="Others").order_by('-id')[:1]
+	return render(request, "myproject/new_blog.html", {'form': form, 'politics_s' : result_politics, 'sports_s' : result_sports,'others_s' : result_others })

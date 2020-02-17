@@ -1,0 +1,26 @@
+a - a.m /p.m	A - AM PM
+b - jan
+d - day of month -01 to 31
+D - day of week Fri
+e - time zone name GMT
+F - MONTH - January
+g - hour 1- 12
+G	- 24 HOUR 0 to 23
+H hour 01 - 12
+i minute 00 to 59
+j day of month 1 to 31
+l	day of the week friday
+m 	01 to 12
+M 	Jan
+n month 1 to 12
+N month abbreviation Jan.
+P time in 12 hours 'midnigth' 'noon'
+y year 2 digit 99 instead of 1999
+Y year 4 digit 1999
+z day of year 0 - 365
+
+SHORT_DATE_FORMAT	- 09/01/2008
+
+EXAMPLE IN TEMPLATE
+
+{{ pols.postDate| date:"l d F, Y  - G:i A" }}

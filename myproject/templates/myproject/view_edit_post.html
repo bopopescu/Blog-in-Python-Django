@@ -1,0 +1,75 @@
+{% extends 'myproject/postAdmin.html' %}
+{% load staticfiles %}
+{% block user_Name %}
+{{ fullname }}
+{% endblock %}
+{% block content %}
+	{% if total_pages_all > 1 %}
+		<div class="col-xs-12">
+			<ul class="pagination" align="center">
+			{% if has_previous_page == 1 %}
+				<li><a href="/myproject/new/blog/view/{{previous_page}}/">&laquo; </a></li>
+			{% endif %}
+			{% for i in total_pages %}
+				{% if i == current_page %}
+					<li class="active"><span>{{ i }}<span class="sr-only">(current)</span></span></li>
+				{% endif %}
+				{% if i != current_page %}
+					<li><a href="/myproject/new/blog/view/{{i}}/">{{ i }} </a></li>
+				{% endif %}
+			{% endfor %}
+			{% if has_next_page == 1 %}
+				<li><a href="/myproject/new/blog/view/{{next_page}}/">&raquo; </a></li>
+			{% endif %}
+			</ul>			
+		</div>
+	{% endif %}
+	
+	{% for sam in sherif %}
+		<div class="col-xs-12">
+			<div class="col-xs-3">
+					<img  style="height:180px" class="img-responsive img-thumbnail" src="{% static 'newsFile/' %}{{sam.postId}}/file.jpg" />
+			</div>
+			<div class="col-xs-9">
+				<h4 style="color:brown" ><strong>{{ sam.postType|upper }} : {{ sam.postTitle }}</strong></h4>
+				<h5 style="color:blue"><strong><span style="color:green">Posted By : </span>{{ sam.author }} <span style="color:green">- Date Posted : </span>{{ sam.postDate| date:"l d F, Y  - G:i A" }}</strong></h5>
+				<p>{{ sam.postBody|truncatewords:100|escape }} </p>
+				<p>
+					<strong style="color:brown">
+						<a style="color:white;padding:2px" class="btn btn-primary" href="/myproject/new/blog/view/read/{{ sam.postId }}/"><span class="glyphicon glyphicon-open"></span> View News <span class="glyphicon glyphicon-open"></span></a>
+					</strong> |
+					<strong style="color:brown">
+						<a style="color:white;padding:2px" class="btn btn-info" href="/myproject/new/blog/view/redit/{{ sam.postId }}/"><span class="glyphicon glyphicon-pencil"></span> Edit News <span class="glyphicon glyphicon-pencil"></span></a>
+					</strong> |
+					<strong style="color:brown">
+						<a style="color:white;padding:2px" class="btn btn-danger" href="/myproject/new/blog/view/redel/{{ sam.postId }}/"><span class="glyphicon glyphicon-trash"></span> Delete News <span class="glyphicon glyphicon-trash"></span></a>
+					</strong>
+				</p>
+				<hr/>
+			</div>
+		</div>
+	{% endfor %}
+	{% if total_pages_all > 1 %}
+		<div class="col-xs-12">
+			<ul class="pagination" align="center">
+			{% if has_previous_page == 1 %}
+				<li><a href="/myproject/new/blog/view/{{previous_page}}/">&laquo; </a></li>
+			{% endif %}
+			{% for i in total_pages %}
+				{% if i == current_page %}
+					<li class="active"><span>{{ i }}<span class="sr-only">(current)</span></span></li>
+				{% endif %}
+				{% if i != current_page %}
+					<li><a href="/myproject/new/blog/view/{{i}}/">{{ i }} </a></li>
+				{% endif %}
+			{% endfor %}
+			{% if has_next_page == 1 %}
+				<li><a href="/myproject/new/blog/view/{{next_page}}/">&raquo; </a></li>
+			{% endif %}
+			</ul>			
+		</div>
+	{% endif %}
+{% endblock %}
+{% block navbar %}
+	{% include "myproject/left_admin_nav.html" %}
+{% endblock %}
